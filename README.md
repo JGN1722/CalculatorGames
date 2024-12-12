@@ -1,5 +1,5 @@
 # CalculatorGames
-a collection of games for the Numworks graphic calculator. Note that every file listed here is available on my numworks profile: https://my.numworks.com/python/come-delfini-thibaudet
+a collection of games for the Numworks graphic calculator. Note that every file listed here is available on [my numworks profile](https://my.numworks.com/python/come-delfini-thibaudet)
 
 ## Bad Guys shooter
 Bad guys shooter is a 3D First-Person-Shooter with animated ennemies. It uses a simple but powerful [raycasting](https://en.wikipedia.org/wiki/Ray_casting) algorithm to render
