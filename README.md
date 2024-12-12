@@ -18,5 +18,5 @@ This script is another 3D experiment. It projects an array of points representin
 ![In-game screenshot](wireframe.jpg)
 
 ## Tetris
-What is there to say ? It's just yet another clone of the classical game, coded in just under 3 days. I'm pretty happy with it, so it finds its place here, but there's nothing more to say about it.
+What is there to say ? It's just yet another clone of the classical game, coded in just under 3 days. I'm pretty happy with it, so it finds its place here, but there's nothing more to say about it.  
 ![In-game screenshot](tetris.jpg)
