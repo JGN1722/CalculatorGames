@@ -20,3 +20,14 @@ This script is another 3D experiment. It projects an array of points representin
 ## Tetris
 What is there to say ? It's just yet another clone of the classical game, coded in just under 3 days. I'm pretty happy with it, so it finds its place here, but there's nothing more to say about it.  
 ![In-game screenshot](tetris.jpg)
+
+## And more...
+Here are some more games, for which I'm not going to write a detailed description:
+A game of tic-tac-toe:  
+![In-game screenshot](tic_tac_toe.jpg)  
+A flappy bird clone:  
+![In-game screenshot](flappy_bird.png)  
+A snake clone:  
+![In-game screenshot](snake.png)  
+A connect4:  
+![In-game screenshot](connect4.png)  
