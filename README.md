@@ -14,5 +14,5 @@ project in the bunch.
 ![In-game screenshot](game_of_life.png)
 
 ## Wireframe
-This script is another 3D experiment. It projects an array of points representing a shape and makes it spin. It flickers a lot on an actual calculator due to the unpractical line drawing, but achieves nice performances on the web emulator. It uses simple geometry to calculate the intersection of the projection plane with the ray going from each point to the center of the 3D space, and project what was calculated to the screen. I made the algorithm up from scratch so it would probably have been cleaner if I had coded it with my foot.  
-![In-game screenshot](wireframe.png)
+This script is another 3D experiment. It projects an array of points representing a lovely house and makes it spin. It flickers a lot on an actual calculator due to the unpractical line drawing, but achieves nice performances on the web emulator. It uses simple geometry to calculate the intersection of the projection plane with the ray going from each point to the center of the 3D space, and project what was calculated to the screen. I made the algorithm up from scratch so it would probably have been cleaner if I had coded it with my foot.  
+![In-game screenshot](wireframe.jpg)
