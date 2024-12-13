@@ -14,7 +14,7 @@ project in the bunch.
 ![In-game screenshot](game_of_life.png)
 
 ## Wireframe
-This script is another 3D experiment. It projects an array of points representing a lovely house and makes it spin. It flickers a lot on an actual calculator due to the unpractical line drawing, but achieves nice performances on the web emulator. It uses simple geometry to calculate the intersection of the projection plane with the ray going from each point to the center of the 3D space, and project what was calculated to the screen. I made the algorithm up from scratch so it would probably have been cleaner if I had coded it with my foot.  
+This script is another 3D experiment. It projects an array of points representing a lovely house and makes it spin. It flickers a lot on an actual calculator due to the unpractical line drawing, but achieves nice performances on the web emulator. It uses simple geometry to calculate the intersection of the projection plane with the ray going from each point to the center of the 3D space, and project what was calculated to the screen. I made the algorithm up from scratch so it would probably have been cleaner if I had coded it with my feet.  
 ![In-game screenshot](wireframe.png)
 
 ## Tetris
@@ -26,7 +26,7 @@ Here are some more games, for which I'm not going to write a detailed descriptio
 A game of tic-tac-toe:  
 ![In-game screenshot](tic_tac_toe.png)  
 A flappy bird clone:  
-![In-game screenshot](flappy_bird.png)  
+![In-game screenshot](flappy.png)  
 A snake clone:  
 ![In-game screenshot](snake.png)  
 A connect4:  
