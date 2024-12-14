@@ -78,10 +78,10 @@ def s():
       ini="t"
       spawn()
     if var==True:
-      if get_pixel(ground[x*20+y].x,ground[x*20+y].y) == (0, 0, 248):
+      if get_pixel(ground[x*20+y].x,ground[x*20+y].y) == (0, 0, 255):
         ini="f"
         le=le+1
-      if get_pixel(ground[x*20+y].x,ground[x*20+y].y) == (248, 0, 0):
+      if get_pixel(ground[x*20+y].x,ground[x*20+y].y) == (255, 0, 0):
         break
       ground[x*20+y].appear("red")
     sleep(0.05)
