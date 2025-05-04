@@ -8,6 +8,11 @@ a reasonable speed.  It is important to note that every single one of the 500+ l
 6 long months. It took me 3 tries and my sanity to get it right, but it's a pretty entertaining game now that it's done.  
 ![In-game screenshot](bad_guys_shooter.png)
 
+## Pokemon
+Pokemon Numworks Edition features a nice number of pokemons, mainly from the 5th generation, because after that new pokemons became lame.  
+Because it contains duel mechanics as well as a 2D map to wander in, it stretches the limits of the calculator's memory.
+![In-game screenshot](pokemon.png)
+
 ## Game of life
 This game is a simple implementation of Conway's [game of life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) that was made out of boredom. Not the most interesting
 project in the bunch.  
