@@ -10,7 +10,7 @@ a reasonable speed.  It is important to note that every single one of the 500+ l
 
 ## Pokemon
 Pokemon Numworks Edition features a nice number of pokemons, mainly from the 5th generation, because after that new pokemons became lame.  
-Because it contains duel mechanics as well as a 2D map to wander in, it stretches the limits of the calculator's memory.
+Because it contains duel mechanics as well as a 2D map to wander in, it stretches the limits of the calculator's memory.  
 ![In-game screenshot](pokemon.png)
 
 ## Game of life
