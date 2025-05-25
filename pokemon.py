@@ -1,7 +1,7 @@
 from kandinsky import *
-from time import *
+from time import sleep
 from ion import *
-from random import *
+from random import randint,choice
 
 blue = (0,0,255)
 green = (0,255,0)
@@ -24,8 +24,12 @@ lightgrey = (200,200,200)
 brown = (100,0,0)
 grass = (200,255,200)
 green2 = (0,240,0)
-#lighterblue = (200,200,255)
-#lightorange = (255,200,100)
+brick = (200,0,0)
+lighterblue = (200,200,255)
+lightorange = (255,200,100)
+greygreen = (100,150,100)
+pink = (255,100,150)
+purple = (167, 104, 183)
 
 class PokemonReference:
   def __init__(self,color,maxhp,atk):
@@ -49,7 +53,12 @@ pokemons = {
   "evoli": PokemonReference(beige,40,8),
   "voltali": PokemonReference(yellow,55,26),
   "aquali": PokemonReference((100,100,255),50,26),
-  "pyroli": PokemonReference((255,100,100),55,25),
+  "givrali": PokemonReference(lightblue,50,26),
+  "pyroli": PokemonReference(lightred,55,25),
+  "mentali": PokemonReference(purple,55,25),
+  "nymphali": PokemonReference(pink,55,25),
+  "phyllali": PokemonReference(beige,56,24),
+  "noctali": PokemonReference(black,56,25),
   "rattata": PokemonReference(violet,30,5),
   "rattatac": PokemonReference(darkbeige,50,15),
   "feuillajou": PokemonReference(darkgreen,40,10),
@@ -69,22 +78,37 @@ pokemons = {
   "poichigeon": PokemonReference(lightgrey,30,5),
   "colombeau": PokemonReference(lightgrey,55,12),
   "deflaisan": PokemonReference(lightgrey,70,15),
-  #"minidraco": PokemonReference(lighterblue,35,8),
-  #"draco": PokemonReference(lighterblue,55,18),
-  #"dracolosse": PokemonReference(lightorange,100,30),
+  "minidraco": PokemonReference(lighterblue,35,8),
+  "draco": PokemonReference(lighterblue,55,18),
+  "dracolosse": PokemonReference(lightorange,100,30),
+  "insecateur": PokemonReference(darkgreen,55,15),
+  "coupenotte": PokemonReference(greygreen,40,10),
+  "incisache": PokemonReference(greygreen,55,20),
+  "tranchodon": PokemonReference(greygreen,80,35),
+  "magicarpe": PokemonReference(lightred,20,3),
+  "leviathor": PokemonReference(blue,90,25),
+  "zorua": PokemonReference(black,40,13),
+  "zoroark": PokemonReference(black,75,20),
+  "venipatte": PokemonReference(purple,40,8),
+  "scobolide": PokemonReference(violet,90,5),
+  "brutapode": PokemonReference(purple,80,20),
   "reshiram": PokemonReference(white,165,40),
   "zekrom": PokemonReference(black,165,40),
   "kyurem": PokemonReference(grey,165,40),
+  "arceus": PokemonReference(white,270,50),
 }
+
+eeveelutions = ["voltali","pyroli",
+                "aquali","phyllali",
+                "noctali","givrali",
+                "mentali","nymphali"]
 
 poke_families = [
   ["pichu","pikachu","raichu"],
   ["bulbizarre","herbizarre","florizarre"],
   ["carapuce","carabaffe","tortank"],
   ["salameche","reptincel","dracaufeu"],
-  ["evoli","pyroli"],
-  ["evoli","aquali"],
-  ["evoli","voltali"],
+  ["evoli"],
   ["rattata","rattatac"],
   ["feuillajou","feuilloutan"],
   ["flotajou","flotoutan"],
@@ -94,9 +118,16 @@ poke_families = [
   ["canartichaut"],
   ["roucool","roucoups","roucarnage"],
   ["poichigeon","colombeau","deflaisan"],
+  ["minidraco","draco","dracolosse"],
+  ["insecateur"],
+  ["coupenotte","incisache","tranchodon"],
+  ["magicarpe","leviathor"],
+  ["zorua","zoroark"],
+  ["venipatte","scobolide","brutapode"],
   ["","","","reshiram"],
   ["","","","zekrom"],
   ["","","","kyurem"],
+  ["","","","","arceus"],
 ]
 
 map = [
@@ -129,23 +160,22 @@ def get_poke_atk(name):
   return pokemons[name].atk
 
 def get_poke_family(name):
+  if name in eeveelutions:
+    return ["evoli",name]
   for f in poke_families:
-    if name in f:
-      return f
+    if name in f:  return f
 
 def get_poke_fam_rank(name):
   f = get_poke_family(name)
   for i in range(len(f)):
-    if f[i] == name:
-      return i
+    if f[i] == name:  return i
 
 def get_poke_evo(name):
   if name == "evoli":
-    return choice(["pyroli","aquali","voltali"])
+    return choice(eeveelutions)
   f = get_poke_family(name)
   for i in range(len(f) - 1):
-    if f[i] == name:
-      return f[i + 1]
+    if f[i] == name:  return f[i + 1]
   return name
 
 class Pokemon:
@@ -157,24 +187,21 @@ equipe = [None,None,None]
 reserve = [None,None,None]
 
 def display_pokemon(name,x,y):
-  c = get_poke_color(name)
-  o = len(name) * 5
-  fill_rect(x-10,y-10,20,20,c)
-  draw_string(name,x-o,y+20)
+  fill_rect(x-10,y-10,20,20,get_poke_color(name))
+  draw_string(name,x-len(name)*5,y+20)
 
 def clear_pokemon(x,y):
   fill_rect(x-60,y-20,120,60,green)
 
 def display_health(name,x,hp):
-  w = max(len(name)*10+10,70+10)
+  w = max(len(name)*10+10,80)
   x = min(x,320-w)
   fill_rect(x,0,w,50,white)
   draw_string(name,x+5,5)
   
   f = int(70*max(hp,0)/get_poke_hp(name))
-  d = 70 - f
   fill_rect(x+5,30,f,10,green)
-  fill_rect(x+5+f,30,d,10,red)
+  fill_rect(x+5+f,30,70 - f,10,red)
 
 def display_ennemy(name,hp):
   display_pokemon(name,250,80)
@@ -184,57 +211,38 @@ def display_player(name,hp):
   display_pokemon(name,70,80)
   display_health(name,0,hp)
 
-def animate_ennemy(name):
-  clear_pokemon(250,80)
-  display_pokemon(name,250+10,80)
+def animate(x,y,name):
+  clear_pokemon(x,y)
+  display_pokemon(name,x+10,y)
   sleep(0.25)
-  clear_pokemon(250+10,80)
-  display_pokemon(name,250,80+10)
+  clear_pokemon(x+10,y)
+  display_pokemon(name,x,y+10)
   sleep(0.25)
-  clear_pokemon(250,80+10)
-  display_pokemon(name,250-10,80)
+  clear_pokemon(x,y+10)
+  display_pokemon(name,x-10,y)
   sleep(0.25)
-  clear_pokemon(250-10,80)
-  display_pokemon(name,250,80-10)
+  clear_pokemon(x-10,y)
+  display_pokemon(name,x,y-10)
   sleep(0.25)
-  clear_pokemon(250,80-10)
-  display_pokemon(name,250,80)
-
-def animate_player(name):
-  clear_pokemon(70,80)
-  display_pokemon(name,70+10,80)
-  sleep(0.25)
-  clear_pokemon(70+10,80)
-  display_pokemon(name,70,80+10)
-  sleep(0.25)
-  clear_pokemon(70,80+10)
-  display_pokemon(name,70-10,80)
-  sleep(0.25)
-  clear_pokemon(70-10,80)
-  display_pokemon(name,70,80-10)
-  sleep(0.25)
-  clear_pokemon(70,80-10)
-  display_pokemon(name,70,80)
+  clear_pokemon(x,y-10)
+  display_pokemon(name,x,y)
 
 # max 3 lines, blocking
 # overflow in another box
 def dialog_box(a):
-  if len(a) < 30 * 3 - 10:
-    _dialog_box(a)
+  if len(a) < 80:  _dialog_box(a)
   else:
     while len(a) != 0:
-      _dialog_box(a[:30*3-10])
-      a = a[30*3-10:]
+      _dialog_box(a[:80])
+      a = a[80:]
 def _dialog_box(a):
   b,c,i,x,y,w,h = 3,a,0,10,135,300,77
   t,v = b+3,b+3
   fill_rect(x,y,w,h,black)
   fill_rect(x+b,y+b,w-2*b,h-b*2,white)
   while i < len(c)+1:
-    if v + i *10 > w:
-      v,c,i = v+20,c[i-1:],0
-    if v > 60:
-      break
+    if v + i *10 > w:  v,c,i = v+20,c[i-1:],0
+    if v > 60:  break
     draw_string(c[:i],x+t,y+v)
     sleep(0.02)
     i += 1
@@ -244,8 +252,7 @@ def _dialog_box(a):
   fill_rect(x+b,y+b,w-b*2,h-b*2,white)
 
 def option_box(a,n,m):
-  r = 0
-  b,c,i,x,y,w,h = 3,a,0,10,135,300,77
+  r,b,c,i,x,y,w,h = 0,3,a,0,10,135,300,77
   t,v = b+3,b+3
   fill_rect(x,y,w,h,black)
   fill_rect(x+b,y+b,w-2*b,h-b*2,white)
@@ -261,7 +268,7 @@ def option_box(a,n,m):
   while not keydown(KEY_OK):
     if keydown(KEY_UP) or keydown(KEY_DOWN):
       while keydown(KEY_UP) or keydown(KEY_DOWN):  pass
-      v = b+3+20
+      v = b+23
       if not r:
         draw_string(" "+n,x+t,y+v)
         draw_string(">"+m,x+t,y+v+20)
@@ -276,7 +283,7 @@ def option_box(a,n,m):
   return r
 
 def fade(c):
-  for i in range(32*23):
+  for i in range(736):
     x,y=randint(0,31)*10,randint(0,22)*10
     while get_pixel(x,y) == c:
       x,y=randint(0,31)*10,randint(0,22)*10
@@ -322,7 +329,7 @@ def fight(name, nocatch=False):
     else:
       
       # attack
-      animate_player(player_name)
+      animate(70,80,player_name)
       dmg = get_poke_atk(player_name)
       ennemy_hp -= dmg
       display_ennemy(name,ennemy_hp)
@@ -334,7 +341,7 @@ def fight(name, nocatch=False):
         break
         
     # ennemy attack
-    animate_ennemy(name)
+    animate(250,80,name)
     dmg = get_poke_atk(name)
     player_hp -= dmg
     display_player(player_name,player_hp)
@@ -366,8 +373,6 @@ def fight(name, nocatch=False):
           equipe[i].name = evo
           if i == active_pokemon:
             display_player(evo,player_hp)
-      else:
-        pass # already at maximum
     
     if not nocatch and None in equipe:
       if not option_box("Voulez vous attraper " + name + " ?","Yes","No"):
@@ -378,27 +383,25 @@ def fight(name, nocatch=False):
         else:  i = 2
         equipe[i] = Pokemon(name,lvl)
         dialog_box(name + " a rejoint votre equipe")
-  else:
-    dialog_box("Vous etes vaincu")
+  else:  dialog_box("Vous etes vaincu")
   
   fade(black2)
 
 def text_center(text,y,c=black,bc=white):
-  x = 160 - len(text) * 5
-  draw_string(text,x,y,c,bc)
+  draw_string(text,160-len(text)*5,y,c,bc)
 
 def title_screen():
   fill_rect(0,0,320,222,green2)
   text_center("Pokemon",10,bc=green2)
   text_center("Numworks edition",30,bc=green2)
+  text_center("By JGN",50,bc=green2)
   text_center("Press [XNT] to start",200,bc=green2)
   draw_person(shirt=white,pants=blue,hair=grey,x=220)
   draw_person(shirt=red,pants=blue,hair=brown,x=100)
   display_pokemon("salameche",160,160)
   display_pokemon("carapuce",60,150)
   display_pokemon("bulbizarre",260,150)
-  while not keydown(KEY_XNT):
-    pass
+  while not keydown(KEY_XNT):  pass
 
 def start():
   fade(green)
@@ -420,12 +423,6 @@ def start():
   dialog_box("Essayons un premier combat")
   fight("evoli", nocatch=True)
 
-def draw_grass(x,y):
-  fill_rect(x,y,30,30,grass)
-
-def draw_path(x,y):
-  fill_rect(x,y,30,30,(255,180,150))
-
 def draw_tree(x,y):
   fill_rect(x,y,30,30,grass)
   fill_rect(x+10,y+5,10,20,green)
@@ -433,60 +430,40 @@ def draw_tree(x,y):
   fill_rect(x+10,y+25,10,4,brown)
 
 def draw_wall(x,y):
-  fill_rect(x,y,30,30,(200,0,0))
-  fill_rect(x,y,30,2,grey)
-  fill_rect(x,y+8,30,4,grey)
-  fill_rect(x,y+18,30,4,grey)
-  fill_rect(x,y+28,30,2,grey)
-  
-  fill_rect(x,y,2,8,grey)
-  fill_rect(x+13,y,4,8,grey)
-  fill_rect(x+28,y,2,8,grey)
-  
-  fill_rect(x+8,y+12,4,8,grey)
-  fill_rect(x+18,y+12,4,8,grey)
-  
-  fill_rect(x,y+22,2,8,grey)
-  fill_rect(x+13,y+22,4,8,grey)
-  fill_rect(x+28,y+22,2,8,grey)
+  fill_rect(x,y,30,30,grey)
+  fill_rect(x+2,y+2,11,6,brick)
+  fill_rect(x+17,y+2,11,6,brick)
+  fill_rect(x,y+12,8,6,brick)
+  fill_rect(x+12,y+12,6,6,brick)
+  fill_rect(x+22,y+12,8,6,brick)
+  fill_rect(x+2,y+22,11,6,brick)
+  fill_rect(x+17,y+22,11,6,brick)
 
-def draw_floor(x,y):
-  fill_rect(x,y,30,30,lightgrey)
-
-def draw_water(x,y):
-  fill_rect(x,y,30,30,(100,100,255))
+def draw_solid(x,y,c):
+  fill_rect(x,y,30,30,c)
 
 def draw_player(x,y):
   fill_rect(x+11,y+2,7,6,beige)
   fill_rect(x+10,y+8,10,10,red)
-
   fill_rect(x+10,y+15,10,7,blue)
+
+def tile(x,y):  return map[y-1][x-1]
 
 def render_map(dx=0,dy=0):
   for x in range(px-6,px+6):
     for y in range(py-5,py+5):
-      sx = 160+(x-px)*30
-      sy = 110+(y-py)*30
+      sx,sy = 160+(x-px)*30+dx,110+(y-py)*30+dy
       if not x in range(1,mapx+1) or not y in range(1,mapy+1):
-        draw_tree(sx+dx,sy+dy)
+        draw_tree(sx,sy)
       else:
         t = tile(x,y)
-        if t == 0:
-          draw_grass(sx+dx,sy+dy)
-        elif t == 1:
-          draw_tree(sx+dx,sy+dy)
-        elif t == 2:
-          draw_path(sx+dx,sy+dy)
-        elif t == 3:
-          draw_wall(sx+dx,sy+dy)
-        elif t == 4:
-          draw_floor(sx+dx,sy+dy)
-        elif t == 5:
-          draw_water(sx+dx,sy+dy)
+        if t == 1:    draw_tree(sx,sy)
+        elif t == 3:  draw_wall(sx,sy)
+        elif t == 0:  draw_solid(sx,sy,grass)
+        elif t == 2:  draw_solid(sx,sy,(255,180,150))
+        elif t == 4:  draw_solid(sx,sy,lightgrey)
+        elif t == 5:  draw_solid(sx,sy,(100,100,255))
   draw_player(160,110)
-
-def tile(x,y):
-  return map[y-1][x-1]
 
 def menu():
   fill_rect(0,0,320,222,white)
@@ -501,20 +478,17 @@ def menu():
       enum_pokemons()
       return
     elif keydown(KEY_TWO):
-      while keydown(KEY_TWO):
-        pass
+      while keydown(KEY_TWO):  pass
       pokemon_to_reserve()
       return
     elif keydown(KEY_THREE):
-      while keydown(KEY_THREE):
-        pass
+      while keydown(KEY_THREE):  pass
       pokemon_to_team()
       return
     elif keydown(KEY_FOUR):
       release_pokemon()
       return
-  while keydown(KEY_OK):
-    pass
+  while keydown(KEY_OK):  pass
 
 def enum_pokemons():
   fill_rect(0,0,320,222,white)
@@ -533,16 +507,13 @@ def enum_pokemons():
       y += 20
   
   draw_string("[OK] Fermer le menu",0,200)
-  while not keydown(KEY_OK):
-    pass
-  while keydown(KEY_OK):
-    pass
+  while not keydown(KEY_OK):  pass
+  while keydown(KEY_OK):  pass
 
 def release_pokemon():
   fill_rect(0,0,320,222,white)
   draw_string("Pressez le numero du pokemon a\nrelacher:",0,0)
-  y = 40
-  i = 1
+  y,i = 40,1
   for p in equipe:
     if p:
       draw_string(str(i) + ". " + p.name,0,y)
@@ -565,8 +536,7 @@ def release_pokemon():
     elif keydown(KEY_THREE):
       equipe[2] = None
       return
-  while keydown(KEY_OK):
-    pass
+  while keydown(KEY_OK):  pass
 
 def pokemon_to_team():
   next_spot = 0
@@ -578,8 +548,7 @@ def pokemon_to_team():
   
   fill_rect(0,0,320,222,white)
   draw_string("Pressez le numero du pokemon a\nmettre dans l'equipe:",0,0)
-  y = 40
-  i = 1
+  y,i = 40,1
   for p in reserve:
     if p:
       draw_string(str(i) + ". " + p.name,0,y)
@@ -606,8 +575,7 @@ def pokemon_to_team():
       equipe[next_spot] = reserve[2]
       reserve[2] = None
       return
-  while keydown(KEY_OK):
-    pass
+  while keydown(KEY_OK):  pass
 
 def pokemon_to_reserve():
   next_spot = 0
@@ -619,8 +587,7 @@ def pokemon_to_reserve():
   
   fill_rect(0,0,320,222,white)
   draw_string("Pressez le numero du pokemon a\nmettre dans la reserve:",0,0)
-  y = 40
-  i = 1
+  y,i = 40,1
   for p in equipe:
     if p:
       draw_string(str(i) + ". " + p.name,0,y)
@@ -641,16 +608,14 @@ def pokemon_to_reserve():
     elif keydown(KEY_TWO):
       if next_spot == -1:  return # no room
       reserve[next_spot] = equipe[1]
-      equipe[1] = equipe[2]
-      equipe[2] = None
+      equipe[1],equipe[2] = equipe[2],None
       return
     elif keydown(KEY_THREE):
       if next_spot == -1:  return # no room
       reserve[next_spot] = equipe[2]
       equipe[2] = None
       return
-  while keydown(KEY_OK):
-    pass
+  while keydown(KEY_OK):  pass
 
 def game():
   global px,py
@@ -659,6 +624,8 @@ def game():
   dialog_box("Pressez [OK] pour acceder au menu")
   render_map()
   
+  d = range(2,30,2)
+  
   while True:
     
     # movement
@@ -666,47 +633,39 @@ def game():
     if move_keys[0]:
       if px == 1 or tile(px-1,py) in [1,3,5]:
         continue
-      for dx in range(2,30,2):
-        render_map(dx=dx)
+      for dx in d:  render_map(dx=dx)
       px -= 1
-      render_map()
     elif move_keys[1]:
       if px == mapx or tile(px+1,py) in [1,3,5]:
         continue
-      for dx in range(2,30,2):
-        render_map(dx=-dx)
+      for dx in d:  render_map(dx=-dx)
       px += 1
-      render_map()
     elif move_keys[2]:
       if py == 1 or tile(px,py-1) in [1,3,5]:
         continue
-      for dy in range(2,30,2):
-        render_map(dy=dy)
+      for dy in d:  render_map(dy=dy)
       py -= 1
-      render_map()
     elif move_keys[3]:
       if py == mapy or tile(px,py+1) in [1,3,5]:
         continue
-      for dy in range(2,30,2):
-        render_map(dy=-dy)
+      for dy in d:  render_map(dy=-dy)
       py += 1
-      render_map()
     
     # encounters
     if move_keys != [False]*4:
+      render_map() # rerender after move
       if not tile(px,py) in [4,2] and randint(0,5) == 5:
         l = [p for p in pokemons.keys()]
-        e = randint(0,len(pokemons)-1)
+        e = choice(l)
         r = max(get_poke_fam_rank(p.name) if p else 0 for p in equipe)
-        while get_poke_fam_rank(l[e-1]) > r + 1:
-          e = randint(0,len(pokemons)-1)
-        fight(l[e-1])
+        while get_poke_fam_rank(e) > r + 1:
+          e = choice(l)
+        fight(e)
         render_map()
     
     # menu
     if keydown(KEY_OK):
-      while keydown(KEY_OK):
-        pass
+      while keydown(KEY_OK):  pass
       menu()
       render_map()
 
