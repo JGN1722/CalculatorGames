@@ -9,7 +9,7 @@ a reasonable speed.  It is important to note that every single one of the 500+ l
 ![In-game screenshot](bad_guys_shooter.png)
 
 ## Pokemon
-Pokemon Numworks Edition features a nice number of pokemons, mainly from the 5th generation, because after that new pokemons became lame.  
+Pokemon Numworks Edition features a nice number of pokemons (about 50), mainly from the 5th generation, because after that new pokemons became lame.  
 Because it contains duel mechanics as well as a 2D map to wander in, it stretches the limits of the calculator's memory.  
 ![In-game screenshot](pokemon.png)
 
@@ -28,6 +28,8 @@ What is there to say ? It's just yet another clone of the classical game, coded 
 
 ## And more...
 Here are some more games, for which I'm not going to write a detailed description:  
+A two-player chess:  
+![In-game screenshot](chess.png)  
 A game of tic-tac-toe:  
 ![In-game screenshot](tic_tac_toe.png)  
 A flappy bird clone:  
