@@ -26,10 +26,13 @@ This script is another 3D experiment. It projects an array of points representin
 What is there to say ? It's just yet another clone of the classical game, coded in just under 3 days. I'm pretty happy with it, so it finds its place here, but there's nothing more to say about it.  
 ![In-game screenshot](tetris.png)
 
+## Chess
+This one I'm proud of, because it features no less than three different game modes: classic 1v1, timed 1v1 with a live timer countdown, and a battle against a homemade bot.  
+The bot is not that good, and is unable to checkmate the opponent in most cases, but that's about what the calculator can run. It still beats me though, so I guess I'm worse at chess than a bot on a calculator.  
+![In-game screenshot](chess.png)
+
 ## And more...
 Here are some more games, for which I'm not going to write a detailed description:  
-A two-player chess:  
-![In-game screenshot](chess.png)  
 A game of tic-tac-toe:  
 ![In-game screenshot](tic_tac_toe.png)  
 A flappy bird clone:  
